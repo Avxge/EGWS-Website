@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EGWS | Fortnite</title>
+    <link rel="icon" type="image/png" href="../launcher/navicon.png" />
+    <meta property="og:title" content="EGWS's Fortnite" />
+    <meta property="og:description" content="Chapter 2 Season 2 is here, bringing a wonderful new world, new vehicles, new items, new emotes, new skins, new everything, jump in soon!" />
+    <meta property="og:image" content="https://i.imgur.com/m2jHLbN.png" />
+    <meta property="og:url" content="https://avxge.co.uk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        @font-face{
+            font-family:"BurbankBigCondensedBlack";
+            src:url(../launcher/burbankbigcondensed_black.otf) format("opentype")
+        }
+        @font-face{
+            font-family:"Lato-Light";
+            src:url(../launcher/Lato-Light.otf) format("opentype")
+        }
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0
+        }
+        html,body{
+            width:100%;
+            height:100%
+        }
+        body{
+            font-family:"Bricolage Grotesque",sans-serif;
+            background:url(../launcher/oldlobby.png) no-repeat center center/cover;
+            color:#000;
+            position:relative;
+            overflow-x:hidden
+        }
+        .loading-screen{
+            position:fixed;
+            width:100%;
+            height:100%;
+            background:#131313;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+            animation:fadeOut 1s ease-out 2s forwards
+        }
+        .loading-logo{
+            width:15vw;
+            max-width:250px;
+            min-width:100px;
+            animation:blink 1.5s infinite alternate
+        }
+        @keyframes blink{
+            0%{opacity:1}
+            100%{opacity:.4}
+        }
+        @keyframes fadeOut{
+            100%{opacity:0;visibility:hidden}
+        }
+        .diagonal-bg{
+            position:absolute;
+            top:0;
+            left:0;
+            width:0%;
+            height:0%;
+            background:#fff;
+            clip-path:polygon(0 0,100%0,80%100%,0 100%);
+            z-index:0
+        }
+        .main-container{
+            display:flex;
+            flex-direction:column;
+            width:100%;
+            position:relative
+        }
+        .navbar {
+            background: #2a2a2a;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            width: 100%
+        }
+
+        .navbar-logo {
+            height: 40px;
+            margin-left: 17px
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+            margin-left: 5px
+        }
+
+        .nav-item {
+            font-family: "Lato-Medium", sans-serif;
+            color: #cccccc;
+            text-transform: uppercase;
+            font-size: 10.7px;
+            font-weight: 540;
+            letter-spacing: 1px;
+            padding: 19px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden
+        }
+
+        .selected-item {
+            font-family: "Lato-Medium", sans-serif;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 10.7px;
+            font-weight: 540;
+            letter-spacing: 1px;
+            padding: 19px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .selected-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background-color: #0178f1;
+            transform: translateY(2px);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5.5px;
+            color: #fff;
+            background-color: #0178f1;
+            transform: translateY(100%);
+            transition: transform 0.2s ease
+        }
+
+        .nav-item:hover::after {
+            transform: translateY(0)
+        }
+
+        .download-btn {
+            background: #0178f1;
+            color: #fff;
+            padding: 19px 30px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 0;
+            transition: filter 0.3s ease;
+            font-family: "Lato-Light", sans-serif;
+            letter-spacing: 1px;
+            position: absolute;
+            right: 0
+        }
+
+        .download-btn:hover {
+            filter: brightness(1.35)
+        }
+        
+        .season-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 50px);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .season-title {
+            font-family: "BurbankBigCondensedBlack", sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 20px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 50px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .season-buttons {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+        
+        .season-btn {
+            color: white;
+            padding: 20px 40px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-family: "BurbankBigCondensedBlack", sans-serif;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 300px;
+        }
+       
+        .season-btn:nth-child(1) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../launcher/s5.jpg');
+            animation: pulseWidth 6s ease-in-out infinite;
+        }
+        
+        .season-btn:nth-child(2) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../launcher/agency.jpg');
+            animation: pulseWidth 6s ease-in-out infinite 3s;
+        }
+        
+        .season-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Button Animation */
+        @keyframes pulseWidth {
+            0% { min-width: 300px; }
+            50% { min-width: 340px; }
+            100% { min-width: 300px; }
+        }
+        
+        .season-btn:nth-child(1) {
+            animation: pulseWidth 6s ease-in-out infinite;
+        }
+        
+        .season-btn:nth-child(2) {
+            animation: pulseWidth 6s ease-in-out infinite 3s;
+        }
+        
+        .footer{
+            width:100%;
+            background-color:#131313;
+            padding:50px 0 40px;
+            color:#fff;
+            position:relative;
+            z-index:5;
+            margin-top:0
+        }
+        .footer-container{
+            max-width:1400px;
+            margin:0 auto;
+            padding:0 20px
+        }
+        .footer-top{
+            text-align:center;
+            margin-bottom:30px
+        }
+        .copyright{
+            font-family:"Lato-Light",sans-serif;
+            font-size:14px;
+            color:#999;
+            margin-bottom:10px
+        }
+        .footer-logos{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:40px;
+            margin:20px 0
+        }
+        .footer-logo{
+            height:60px
+        }
+        .footer-divider{
+            height:1px;
+            background-color:#333;
+            margin:30px 0
+        }
+        .footer-bottom{
+            display:flex;
+            justify-content:space-between;
+            align-items:center
+        }
+        .footer-text{
+            font-family:"Lato-Light",sans-serif;
+            font-size:16px;
+            color:#aaa;
+            max-width:60%;
+            line-height:1.5
+        }
+        .social-buttons{
+            display:flex;
+            gap:15px
+        }
+        .social-button{
+            width:40px;
+            height:40px;
+            border-radius:20%;
+            background-color:#333;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:18px;
+            transition:background-color 0.3s ease
+        }
+        .social-button:hover{
+            background-color:#f33;
+            color:#131313
+        }
+        
+        @media (max-width: 768px) {
+            .season-title {
+                font-size: 3rem;
+                margin-bottom: 30px;
+            }
+            .season-buttons {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .season-btn {
+                font-size: 2rem;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen"><img src="../launcher/logo.png" alt="Loading Logo" class="loading-logo" /></div>
+    <div class="main-container">
+        <div class="navbar"><img src="../launcher/navicon.png" alt="Logo" class="navbar-logo" />
+            <div class="nav-items">
+                <div class="selected-item" onclick="window.open('https://egwsmp.xyz/home', '_blank')">HOME</div>
+                <div class="nav-item" onclick="window.open('../fortnite/', '_blank')">FORTNITE</div>
+                <div class="nav-item" onclick="window.open('../rocketleague/', '_blank')">ROCKET LEAGUE</div>
+                <div class="nav-item" onclick="window.open('../news/', '_blank')">NEWS</div>
+                <div class="nav-item" onclick="window.open('../store/', '_blank')">STORE</div>
+            </div><button class="download-btn" onclick="window.location.href='../en-uk/download/'">DOWNLOAD</button></div>
+
+        <div class="season-selection">
+            <h1 class="season-title">EGWS HOSTS 2 SEASONS</h1>
+            <h1 class="season-title">CHOOSE YOUR FORTNITE SEASON!</h1>
+            <div class="season-buttons">
+<button class="season-btn" onclick="window.open('../worlds-collide/', '_blank')">SEASON 5</button>
+<button class="season-btn" onclick="window.open('../top-secret/', '_blank')">SEASON 12</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-top">
+                    <div class="copyright">2025 EGWS. All rights reserved.</div>
+                    <div class="footer-logos">
+                        <img src="../launcher/logo.png" alt="EGWS Logo" class="footer-logo">
+                    </div>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-bottom">
+                    <div class="footer-text">
+                        Fortnite is a registered trademark of Epic Games Inc.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

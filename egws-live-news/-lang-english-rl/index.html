@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rocket League Update | EGWS</title>
+  <link rel="icon" type="image/png" href="../../launcher/navicon.png" />
+  <meta property="og:title" content="ROCKET LEAGUE ON EGWS" />
+  <meta property="og:description" content="EGWS is working on Rocket League, here's what to know!" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    @font-face {
+      font-family: "BurbankBigCondensedBlack";
+      src: url(../../launcher/burbankbigcondensed_black.otf) format("opentype");
+    }
+    
+    @font-face {
+      font-family: "Lato-Light";
+      src: url(../../launcher/Lato-Light.otf) format("opentype");
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    
+    body {
+      font-family: "Bricolage Grotesque", sans-serif;
+      background-color: #f4f4f4;
+      color: #000;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    .loading-screen {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #131313;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOut 1s ease-out 2s forwards;
+    }
+    
+    .loading-logo {
+      width: 15vw;
+      max-width: 250px;
+      min-width: 100px;
+      animation: blink 1.5s infinite alternate;
+    }
+    
+    @keyframes blink {
+      0% { opacity: 1; }
+      100% { opacity: .4; }
+    }
+    
+    @keyframes fadeOut {
+      100% { opacity: 0; visibility: hidden; }
+    }
+    
+    .navbar {
+            background: #2a2a2a;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            width: 100%
+        }
+
+        .navbar-logo {
+            height: 40px;
+            margin-left: 17px
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+            margin-left: 5px
+        }
+
+        .nav-item {
+            font-family: "Lato-Medium", sans-serif;
+            color: #cccccc;
+            text-transform: uppercase;
+            font-size: 10.7px;
+            font-weight: 540;
+            letter-spacing: 1px;
+            padding: 19px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden
+        }
+
+        .selected-item {
+            font-family: "Lato-Medium", sans-serif;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 10.7px;
+            font-weight: 540;
+            letter-spacing: 1px;
+            padding: 19px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .selected-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background-color: #0178f1;
+            transform: translateY(2px);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5.5px;
+            color: #fff;
+            background-color: #0178f1;
+            transform: translateY(100%);
+            transition: transform 0.2s ease
+        }
+
+        .nav-item:hover::after {
+            transform: translateY(0)
+        }
+    
+    .download-btn {
+      background: #0178f1;
+      color: #000;
+      padding: 19px 30px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      border-radius: 0;
+      transition: filter 0.3s ease;
+      font-family: "Lato-Light", sans-serif;
+      letter-spacing: 1px;
+      position: absolute;
+      right: 0;
+    }
+    
+    .download-btn:hover {
+      filter: brightness(1.35);
+    }
+    
+    .patch-banner {
+      width: 100%;
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    
+    .patch-content-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .patch-header {
+      margin-bottom: 30px;
+    }
+    
+    .patch-title {
+      font-family: "BurbankBigCondensedBlack", sans-serif;
+      font-size: 40px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    
+    .patch-date {
+      font-family: "Lato-Light", sans-serif;
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .patch-author {
+      font-family: "Lato-Light", sans-serif;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .social-share {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #3b5998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .social-icon.twitter {
+      background-color: #000;
+    }
+    
+    .social-icon.reddit {
+      background-color: #ff4500;
+    }
+    
+    .social-icon.discord {
+      background-color: #5865F2;
+    }
+    
+    .patch-content {
+      line-height: 1.6;
+    }
+    
+    .section-title {
+      font-family: "BurbankBigCondensedBlack", sans-serif;
+      font-size: 24px;
+      margin: 25px 0 15px;
+    }
+    
+    .patch-content p {
+      margin-bottom: 15px;
+    }
+    
+    .patch-list {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .patch-list li {
+      margin-bottom: 8px;
+    }
+    
+    .footer {
+      width: 100%;
+      background-color: #131313;
+      padding: 50px 0 40px;
+      color: #fff;
+      position: relative;
+      z-index: 5;
+    }
+    
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .footer-top {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .copyright {
+      font-family: "Lato-Light", sans-serif;
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    
+    .footer-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      margin: 20px 0;
+    }
+    
+    .footer-logo {
+      height: 60px;
+    }
+    
+    .footer-divider {
+      height: 1px;
+      background-color: #333;
+      margin: 30px 0;
+    }
+    
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .footer-text {
+      font-family: "Lato-Light", sans-serif;
+      font-size: 16px;
+      color: #aaa;
+      max-width: 60%;
+      line-height: 1.5;
+    }
+    
+    .social-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 20%;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .social-button:hover {
+      background-color: #ff0;
+      color: #131313;
+    }
+    
+    @media (max-width: 992px) {
+      .footer-text {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .social-buttons {
+        margin-top: 20px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar-logo {
+        height: 30px;
+        margin-left: 20px;
+      }
+      
+      .nav-items {
+        margin-left: 10px;
+      }
+      
+      .nav-item {
+        padding: 19px 15px;
+      }
+      
+      .patch-title {
+        font-size: 32px;
+      }
+      
+      .footer-logos {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .nav-items {
+        margin-left: 5px;
+      }
+      
+      .nav-item {
+        padding: 19px 10px;
+        font-size: 9px;
+      }
+      
+      .patch-title {
+        font-size: 28px;
+      }
+      
+      .footer-text {
+        font-size: 14px;
+      }
+      
+      .social-button {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-screen">
+    <img src="../../launcher/logo.png" alt="Loading Logo" class="loading-logo" />
+  </div>
+  
+  <div class="main-container">
+    <div class="navbar">
+      <img src="../../launcher/navicon.png" alt="Logo" class="navbar-logo" />
+      <div class="nav-items">
+        <div class="nav-item" onclick="window.open('../home/', '_blank')">HOME</div>
+        <div class="nav-item" onclick="window.open('../fortnite/', '_blank')">FORTNITE</div>
+        <div class="nav-item" onclick="window.open('../rocketleague/', '_blank')">ROCKET LEAGUE</div>
+        <div class="nav-item" onclick="window.open('../news/', '_blank')">NEWS</div>
+        <div class="nav-item" onclick="window.open('/store/', '_blank')">STORE</div>
+      </div>
+      <button class="download-btn" onclick="window.location.href='../../en-uk/download/'">DOWNLOAD</button>
+    </div>
+    
+    <div class="patch-banner" style="background-image: url('../../launcher/rocket.png')"></div>
+    
+    <div class="patch-content-container">
+      <div class="patch-header">
+        <h1 class="patch-title">ROCKET LEAGUE ON EGWS</h1>
+        <div class="patch-date">09.04.2025</div>
+        <div class="patch-author">The EGWS Team</div>
+        
+        <div class="social-share">
+          <div class="social-icon discord"><i class="fab fa-discord"></i></div>
+        </div>
+      </div>
+      
+      <div class="patch-content">
+        <p>EGWS is working on Rocket League, here's what to know!</p>
+        
+        <h2 class="section-title">OUR REDIRECT / CURL</h2>
+        <p>Isaac, our lead rocket league developer, is hard at work on a curl to succesfuly redirect rocket league to EGWS Online Services and we are well underway in this development, Isaac has began to succesfuly patch the game files!</p>
+
+        <h2 class="section-title">WHAT TO EXPECT?</h2>
+        <li>On August 6, 2019, Psyonix announced that the crate system would be entirely removed and replaced with a more transparent method of unlocking items, we have decided to restore functionality in our 2019 version of Rocket League, so you can look forward to that!</li>
+        <li>An amazing trailer is in the works to showcase what can be enjoyed in upcoming EGWS RL!</li>
+        <h3>Here is a link to view the official Rocket League trailer for those who want an insight to what we will be trying to host!</h1>
+        <h1>https://www.youtube.com/watch?v=NC82dWrFqCE</h2>
+    </ul>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="copyright">2025 EGWS. All rights reserved. Not affiliated with Epic Games or Fortnite.</div>
+          <div class="footer-logos">
+            <img src="../../launcher/logo.png" alt="EGWS Logo" class="footer-logo" />
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+          <div class="footer-text">EGWS is a private server for Rocket League. This is a fan-made project and is not affiliated with, endorsed, sponsored, or specifically approved by Epic Games.</div>
+          <div class="social-buttons">
+            <a href="skibidi" class="social-button"><i class="fab fa-discord"></i></a>
+            <a href="https://x.com/EGWSMP_" class="social-button"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.youtube.com/@EGWSMultiplayer" class="social-button"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EGWS | Store</title>
+    <link rel="icon" type="image/png" href="../launcher/navicon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        @font-face {
+            font-family: "BurbankBigCondensedBlack";
+            src: url(../launcher/burbankbigcondensed_black.otf) format("opentype")
+        }
+
+        @font-face {
+            font-family: "Lato-Light";
+            src: url(../launcher/Lato-Light.otf) format("opentype")
+        }
+
+        @font-face {
+            font-family: "BrutalType-Bold";
+            src: url(../launcher/BrutalType-Bold.otf) format("opentype")
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%
+        }
+
+        body {
+            font-family: "Bricolage Grotesque", sans-serif;
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden
+        }
+
+        .loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #131313;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeOut 1s ease-out 2s forwards
+        }
+
+        .loading-logo {
+            width: 15vw;
+            max-width: 250px;
+            min-width: 100px;
+            animation: blink 1.5s infinite alternate
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1
+            }
+            100% {
+                opacity: .4
+            }
+        }
+
+        @keyframes fadeOut {
+            100% {
+                opacity: 0;
+                visibility: hidden
+            }
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 100vh;
+            position: relative
+        }
+
+        .navbar {
+            background: #2a2a2a;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            width: 100%
+        }
+
+        .navbar-logo {
+            height: 40px;
+            margin-left: 17px
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+            margin-left: 5px
+        }
+
+        .nav-item {
+            font-family: "Lato-Medium", sans-serif;
+            color: #cccccc;
+            text-transform: uppercase;
+            font-size: 10.7px;
+            font-weight: 540;
+            letter-spacing: 1px;
+            padding: 19px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden
+        }
+
+        .selected-item {
+            font-family: "Lato-Medium", sans-serif;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 10.7px;
+            font-weight: 540;
+            letter-spacing: 1px;
+            padding: 19px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .selected-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background-color: #0178f1;
+            transform: translateY(2px);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5.5px;
+            color: #fff;
+            background-color: #0178f1;
+            transform: translateY(100%);
+            transition: transform 0.2s ease
+        }
+
+        .nav-item:hover::after {
+            transform: translateY(0)
+        }
+
+        .download-btn {
+            background: #0178f1;
+            color: #fff;
+            padding: 19px 30px;
+            font-size: 10px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 0;
+            transition: filter 0.3s ease;
+            letter-spacing: 1px;
+            position: absolute;
+            right: 0
+        }
+
+        .download-btn:hover {
+            filter: brightness(1.35)
+        }
+
+        .hero-section {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            background: #121212;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(0deg, rgba(18,18,18,1) 0%, rgba(18,18,18,0.8) 50%, rgba(18,18,18,0) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 0 5% 5% 5%;
+            z-index: 3;
+        }
+
+        .hero-content-inner {
+            max-width: 900px;
+        }
+
+        .available-now {
+            display: inline-block;
+            background: #0078F2;
+            color: #fff;
+            font-family: "BrutalType-Bold", sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 6px 12px;
+            margin-bottom: 15px;
+            border-radius: 2px;
+        }
+
+        .hero-title {
+            font-family: "BrutalType-Bold", sans-serif;
+            font-size: 46px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-description {
+            font-family: "Lato-Light", sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #eee;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .buy-now-btn {
+            background: #0078F2;
+            color: #fff;
+            border: none;
+            font-family: "BrutalType-Bold", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-now-btn:hover {
+            background: #0069d9;
+        }
+
+        .buy-now-btn i {
+            margin-left: 10px;
+        }
+
+        .releases-section {
+            padding: 60px 5%;
+            background: #121212;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-family: "BrutalType-Bold", sans-serif;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .view-all {
+            font-family: "Lato-Light", sans-serif;
+            font-size: 14px;
+            color: #0078F2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .view-all i {
+            margin-left: 5px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background: #202020;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .game-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; 
+            overflow: hidden;
+        }
+
+        .game-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-image {
+            transform: scale(1.05);
+        }
+
+        .game-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-family: "BrutalType-Bold", sans-serif;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .game-developer {
+            font-family: "Lato-Light", sans-serif;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .game-price {
+            font-family: "Lato-Light", sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Updated Footer */
+        .footer {
+            background-color: #202020;
+            padding: 40px 5%;
+            color: #fff;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            height: 40px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 10%;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-button:hover {
+            background-color: #0078F2;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background-color: #333;
+            margin: 20px 0;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .footer-text {
+            font-family: "Lato-Light", sans-serif;
+            font-size: 16px;
+            color: #aaa;
+            max-width: 60%;
+            line-height: 1.5;
+        }
+
+        .copyright {
+            font-family: "Lato-Light", sans-serif;
+            font-size: 14px;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .hero-section {
+                height: 500px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-description {
+                font-size: 16px;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .footer-text {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-items {
+                margin-left: 5px
+            }
+            
+            .nav-item {
+                padding: 19px 10px;
+                font-size: 9px
+            }
+            
+            .hero-section {
+                height: 450px;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .hero-description {
+                font-size: 14px;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-top {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .social-button {
+                width: 35px;
+                height: 35px;
+                font-size: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading-screen"><img src="../launcher/logo.png" alt="Loading Logo" class="loading-logo" /></div>
+    <div class="main-container">
+        <div class="navbar"><img src="../launcher/navicon.png" alt="Logo" class="navbar-logo" />
+            <div class="nav-items">
+                <div class="nav-item" onclick="window.open('../home/', '_blank')">HOME</div>
+                <div class="nav-item" onclick="window.open('../fortnite/', '_blank')">FORTNITE</div>
+                <div class="nav-item" onclick="window.open('../rocketleague/', '_blank')">ROCKET LEAGUE</div>
+                <div class="nav-item" onclick="window.open('../news/', '_blank')">NEWS</div>
+                <div class="nav-item" onclick="window.open('/store/', '_blank')">STORE</div>
+            </div><button class="download-btn" onclick="window.location.href='../en-uk/download/'">DOWNLOAD</button>
+        </div>
+
+        <div class="hero-section">
+            <div class="hero-bg">
+                <img src="../launcher/Red.jpg" alt="Fortnite Chapter 2">
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-content-inner">
+                    <div class="available-now">FREE TO PLAY</div>
+                    <h1 class="hero-title">Fortnite Battle Royale</h1>
+                    <p class="hero-description">The battle is building! Drop into the Battle Royale. Loot, build, explore, and fight in a game of 100 players competing to be the last one standing.</p>
+                    <li>EGWS is hosting v12.41 and v5.41</li>
+                    <div class="hero-cta">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="releases-section">
+            <div class="section-header">
+                <h2 class="section-title">AVAILABLE OFFERS</h2>
+            </div>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image-container">
+                        <img src="../launcher/clowned.jpg" alt="CLOWNED ON STARTER PACK" class="game-image">
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">CLOWNED ON STARTER PACK</h3>
+                        <p class="game-developer">Starter Pack | EGWS</p>
+                        <p class="game-price">SERVICE OFFLINE</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-top">
+                    <img src="../launcher/logo.png" alt="EGWS Logo" class="footer-logo" />
+                    <div class="social-buttons">
+                        <a href="#" class="social-button"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-button"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-button"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-bottom">
+                    <div class="footer-text">EGWS Store developed by Avxge</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const currentPath = window.location.pathname;
+        
+        const navItems = document.querySelectorAll('.nav-items .nav-item');
+        
+        navItems.forEach(item => {
+            // Get the path from the onclick attribute
+            const onclickAttr = item.getAttribute('onclick');
+            if (onclickAttr) {
+                const match = onclickAttr.match(/window\.open\('(.+?)',/);
+                if (match) {
+                    const itemPath = match[1];
+                    
+                    if (currentPath.includes(itemPath) || 
+                        (currentPath.endsWith('/store/') && itemPath.includes('/store/')) ||
+                        (currentPath === '/' && itemPath.includes('/home/'))) {
+                        
+                        item.classList.remove('nav-item');
+                        item.classList.add('selected-item');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

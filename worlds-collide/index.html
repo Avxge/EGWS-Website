@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EGWS | Fortnite</title>
+    <link rel="icon" type="image/png" href="../launcher/navicon.png" />
+    <meta property="og:title" content="EGWS's Fortnite | Season 5" />
+    <meta property="og:image" content="https://i.imgur.com/m2jHLbN.png" />
+    <meta property="og:url" content="https://avxge.co.uk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        @font-face{
+            font-family:"BurbankBigCondensedBlack";
+            src:url(../launcher/burbankbigcondensed_black.otf) format("opentype")
+        }
+        @font-face{
+            font-family:"Lato-Light";
+            src:url(../launcher/Lato-Light.otf) format("opentype")
+        }
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0
+        }
+        html,body{
+            width:100%;
+            height:100%
+        }
+        body{
+            font-family:"Bricolage Grotesque",sans-serif;
+            background:url(../launcher/s5.webp) no-repeat center center/cover;
+            color:#000;
+            position:relative;
+            overflow-x:hidden
+        }
+        .loading-screen{
+            position:fixed;
+            width:100%;
+            height:100%;
+            background:#131313;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+            animation:fadeOut 1s ease-out 2s forwards
+        }
+        .loading-logo{
+            width:15vw;
+            max-width:250px;
+            min-width:100px;
+            animation:blink 1.5s infinite alternate
+        }
+        @keyframes blink{
+            0%{opacity:1}
+            100%{opacity:.4}
+        }
+        @keyframes fadeOut{
+            100%{opacity:0;visibility:hidden}
+        }
+        .diagonal-bg{
+            position:absolute;
+            top:0;
+            left:0;
+            width:0%;
+            height:0%;
+            background:#fff;
+            clip-path:polygon(0 0,100%0,80%100%,0 100%);
+            z-index:0
+        }
+        .main-container{
+            display:flex;
+            flex-direction:column;
+            width:100%;
+            position:relative
+        }
+        .navbar{
+            background:#2a2a2a;
+            height:50px;
+            display:flex;
+            align-items:center;
+            position:relative;
+            z-index:3;
+            width:100%
+        }
+        .navbar-logo{
+            height:40px;
+            margin-left:17px
+        }
+        .nav-items{
+            display:flex;
+            align-items:center;
+            margin-left:5px
+        }
+        .nav-item{
+            font-family:"Lato-Light",sans-serif;
+            color:#fff;
+            text-transform:uppercase;
+            font-size:10.5px;
+            font-weight:550;
+            letter-spacing:1px;
+            padding:19px 25px;
+            cursor:pointer;
+            position:relative;
+            overflow:hidden
+        }
+        .nav-item::after{
+            content:'';
+            position:absolute;
+            bottom:0;
+            left:0;
+            width:100%;
+            height:5.5px;
+            background-color:#00d5ff;
+            transform:translateY(100%);
+            transition:transform 0.2s ease
+        }
+        .nav-item:hover::after{
+            transform:translateY(0)
+        }
+        .nav-item.active::after{
+            transform:translateY(0)
+        }
+        .download-btn{
+            background:#00d5ff;
+            color:#000;
+            padding:19px 30px;
+            font-size:10px;
+            font-weight:700;
+            text-transform:uppercase;
+            border:none;
+            cursor:pointer;
+            border-radius:0;
+            transition:filter 0.3s ease;
+            font-family:"Lato-Light",sans-serif;
+            letter-spacing:1px;
+            position:absolute;
+            right:0
+        }
+        .download-btn:hover{
+            filter:brightness(1.35)
+        }
+        .container{
+            position:relative;
+            flex:1;
+            display:flex;
+            z-index:2;
+            overflow:hidden;
+            height:100vh
+        }
+        .content-wrapper{
+            display:flex;
+            width:100%;
+            height:100%;
+            padding:0
+        }
+        .text-content{
+            width:50%;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-end;
+            padding-left:10%;
+            padding-top:260px;
+            position:relative;
+            z-index:2;
+            font-family:"BurbankBigCondensedBlack",sans-serif
+        }
+        .text-content h1{
+            font-size:130px;
+            font-weight:900;
+            line-height:.85;
+            text-transform:uppercase;
+            color:#fff;
+            text-shadow:0 1px 2px rgb(0 0 0 / .1);
+            margin:0;
+            overflow:hidden
+        }
+        .small-text{
+            font-size:40px;
+            display:block;
+            line-height:1;
+            opacity:0;
+            animation:fadeInUp 0.8s ease forwards 3s
+        }
+        .main-title{
+            display:inline-block;
+            opacity:0;
+            animation:fadeInUp 0.8s ease forwards 3.3s;
+            color:#00d5ff;
+        }
+        .bottom-text{
+            font-size:30px;
+            display:block;
+            line-height:1;
+            margin-top:0;
+            color:#fff;
+            opacity:0;
+            animation:fadeInUp 0.8s ease forwards 3.6s
+        }
+        @keyframes fadeInUp{
+            0%{opacity:0;transform:translateY(20px)}
+            100%{opacity:1;transform:translateY(0)}
+        }
+        .learn-more{
+            background:#00d5ff;
+            color:#FFFFFF;
+            padding:15px 40px;
+            font-size:28px;
+            font-weight:700;
+            text-transform:uppercase;
+            display:inline-block;
+            margin-top:20px;
+            border:none;
+            cursor:pointer;
+            border-radius:0;
+            text-decoration:none;
+            font-family:"BurbankBigCondensedBlack",sans-serif;
+            transition:transform 0.3s ease;
+            width:fit-content;
+            opacity:0;
+            animation:fadeInUp 0.8s ease forwards 4s
+        }
+        .learn-more:hover{
+            transform:scale(2.03);
+            filter:brightness(.6)
+        }
+        .image-content{
+            width:50%;
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:flex-end
+        }
+        .character-container{
+            width:100%;
+            height:100%;
+            display:flex;
+            justify-content:center;
+            align-items:flex-end
+        }
+        .character-container img{
+            max-height:95%;
+            object-fit:contain;
+            object-position:bottom
+        }
+        .scroll-section{
+            width:100%;
+            position:relative;
+            margin-top:300px;
+            z-index:4
+        }
+        .scroll-content{
+            display:flex;
+            justify-content:center;
+            gap:20px;
+            padding:0 20px
+        }
+        .scroll-card{
+            position:relative;
+            width:650px;
+            height:425px;
+            overflow:hidden;
+            border-radius:2px;
+            box-shadow:0 4px 15px rgb(0 0 0 / .3);
+            cursor:pointer
+        }
+        .scroll-card img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition:transform 0.3s ease-in-out
+        }
+        .scroll-card:hover img{
+            transform:scale(1.05)
+        }
+        .share-icon{
+            position:absolute;
+            top:15px;
+            right:15px;
+            width:30px;
+            height:30px;
+            background:url(../launcher/share.png) no-repeat center center/contain;
+            opacity:0;
+            transform:translateY(-20px);
+            transition:all 0.3s ease;
+            z-index:10
+        }
+        .scroll-card:hover .share-icon{
+            opacity:1;
+            transform:translateY(0)
+        }
+        .card-info{
+            position:absolute;
+            bottom:0;
+            left:0;
+            padding:20px;
+            font-family:"BurbankBigCondensedBlack",sans-serif;
+            color:#fff;
+            width:100%;
+            background:linear-gradient(to top,rgb(0 0 0 / .7) 0%,#fff0 100%)
+        }
+        .card-date{
+            font-size:14px;
+            margin-bottom:5px;
+            color:rgb(255 255 255 / .8)
+        }
+        .card-title{
+            font-size:28px;
+            font-weight:700;
+            text-transform:uppercase;
+            line-height:1
+        }
+        .promo-section-wrapper{
+            width:100%;
+            position:relative;
+            margin-top:50px;
+            padding-top:60px;
+            z-index:3
+        }
+        .promo-section{
+            width:100%;
+            min-height:600px;
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            overflow:visible;
+            z-index:100
+        }
+        .promo-bg{
+            position:absolute;
+            top:-40px;
+            left:0;
+            width:100%;
+            height:calc(100% + 100px);
+            background:url(../launcher/s5bp.jpg) no-repeat center center/cover;
+            z-index:-1
+        }
+        .promo-bg::before{
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%
+        }
+        .promo-text{
+            font-family:"BurbankBigCondensedBlack",sans-serif;
+            font-size:70px;
+            font-weight:1000;
+            line-height:.85;
+            text-transform:uppercase;
+            color:#00d5ff;
+            text-shadow:1px 1px 2px rgb(0 0 0 / .2);
+            position:relative;
+            z-index:2;
+            margin-bottom:30px;
+            top:-80px;
+            line-height:.5
+        }
+        .promo-btn{
+            background:#00d5ff;
+            color:#fff;
+            padding:20px 50px;
+            font-size:38px;
+            font-weight:750;
+            text-transform:uppercase;
+            display:inline-block;
+            border:none;
+            cursor:pointer;
+            border-radius:0;
+            text-decoration:none;
+            font-family:"BurbankBigCondensedBlack",sans-serif;
+            transition:transform 0.3s ease;
+            position:relative;
+            z-index:2;
+            top:250px;
+            margin-bottom:200px
+        }
+        .promo-btn:hover{
+            transform:scale(1.03)
+        }
+        .footer{
+            width:100%;
+            background-color:#131313;
+            padding:50px 0 40px;
+            color:#fff;
+            position:relative;
+            z-index:5;
+            margin-top:0
+        }
+        .footer-container{
+            max-width:1400px;
+            margin:0 auto;
+            padding:0 20px
+        }
+        .footer-top{
+            text-align:center;
+            margin-bottom:30px
+        }
+        .copyright{
+            font-family:"Lato-Light",sans-serif;
+            font-size:14px;
+            color:#999;
+            margin-bottom:10px
+        }
+        .footer-logos{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:40px;
+            margin:20px 0
+        }
+        .footer-logo{
+            height:60px
+        }
+        .footer-divider{
+            height:1px;
+            background-color:#333;
+            margin:30px 0
+        }
+        .footer-bottom{
+            display:flex;
+            justify-content:space-between;
+            align-items:center
+        }
+        .footer-text{
+            font-family:"Lato-Light",sans-serif;
+            font-size:16px;
+            color:#aaa;
+            max-width:60%;
+            line-height:1.5
+        }
+        .social-buttons{
+            display:flex;
+            gap:15px
+        }
+        .social-button{
+            width:40px;
+            height:40px;
+            border-radius:20%;
+            background-color:#333;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:18px;
+            transition:background-color 0.3s ease
+        }
+        .social-button:hover{
+            background-color:#00d5ff;
+            color:#131313
+        }
+        @media (max-width:1600px){
+            .text-content h1{font-size:100px}
+            .small-text{font-size:35px}
+            .bottom-text{font-size:25px}
+            .learn-more{font-size:24px;padding:12px 30px}
+            .promo-text{font-size:70px}
+            .promo-btn{font-size:24px;padding:12px 30px}
+        }
+        @media (max-width:1200px){
+            .text-content h1{font-size:80px}
+            .small-text{font-size:30px}
+            .bottom-text{font-size:22px}
+            .learn-more{font-size:20px;padding:10px 25px}
+            .scroll-content{flex-direction:column;align-items:center}
+            .scroll-section{margin-top:20px}
+            .promo-text{font-size:60px;text-align:center}
+            .promo-btn{font-size:20px;padding:10px 25px}
+            .footer-text{max-width:100%;margin-bottom:20px}
+            .footer-bottom{flex-direction:column;text-align:center}
+        }
+        @media (max-width:992px){
+            .diagonal-bg{width:100%}
+            .content-wrapper{position:relative}
+            .text-content{width:100%;height:100%;padding:0 5%;text-align:center;align-items:center;z-index:2;justify-content:center;position:absolute}
+            .text-content h1{font-size:70px}
+            .small-text{font-size:28px}
+            .bottom-text{font-size:20px}
+            .image-content{width:100%;height:70%;position:absolute;bottom:0;left:0;right:0;z-index:1}
+            .character-container img{max-height:100%;max-width:90%}
+            .promo-text{font-size:50px;padding:0 20px}
+            .social-buttons{margin-top:20px}
+        }
+        @media (max-width:768px){
+            .navbar-logo{height:30px;margin-left:20px}
+            .nav-items{margin-left:10px}
+            .nav-item{padding:19px 15px}
+            .text-content h1{font-size:60px}
+            .small-text{font-size:24px}
+            .bottom-text{font-size:18px}
+            .learn-more{font-size:18px;padding:8px 20px}
+            .scroll-card{width:450px;height:265px}
+            .promo-text{font-size:40px}
+            .promo-btn{font-size:18px;padding:8px 20px}
+            .footer-logos{flex-direction:column;gap:20px}
+        }
+        @media (max-width:576px){
+            .nav-items{margin-left:5px}
+            .nav-item{padding:19px 10px;font-size:9px}
+            .text-content h1{font-size:45px}
+            .small-text{font-size:20px}
+            .bottom-text{font-size:16px}
+            .learn-more{font-size:16px;padding:8px 16px}
+            .overlay-text{font-size:10px;bottom:10px;left:10px}
+            .scroll-card{width:300px;height:180px}
+            .card-title{font-size:20px}
+            .promo-text{font-size:30px}
+            .promo-btn{font-size:16px;padding:8px 16px}
+            .footer-text{font-size:14px}
+            .social-button{width:35px;height:35px;font-size:16px}
+        }
+        @media (orientation:portrait){
+            .text-content{justify-content:center}
+            .image-content{height:60%}
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-text"></div>
+    <div class="loading-screen">
+        <img src="../launcher/logo.png" alt="Loading Logo" class="loading-logo" />
+    </div>
+    <div class="main-container">
+        <div class="navbar">
+            <img src="../launcher/navicon.png" alt="Logo" class="navbar-logo" />
+            <div class="nav-items">
+                <div class="nav-item" onclick="window.open('../home/', '_blank')">HOME</div>
+                <div class="nav-item" onclick="window.open('https://www.egwsmp.xyz/fortnite/', '_blank')">FORTNITE</div>
+                <div class="nav-item" onclick="window.open('../rocketleague/', '_blank')">ROCKET LEAGUE</div>
+                <div class="nav-item" onclick="window.open('../news/', '_blank')">NEWS</div>
+                <div class="nav-item" onclick="window.open('/store/', '_blank')">STORE</div>
+            </div>
+            <button class="download-btn" onclick="window.location.href='../en-uk/download/'">DOWNLOAD</button>
+        </div>
+        <div class="container">
+            <div class="diagonal-bg"></div>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h1>
+                        <span class="small-text">SEASON 5</span>
+                        <span class="main-title">WORLDS COLLIDE</span>
+                        <span class="bottom-text">JUMP INTO THE ACTION</span>
+                    </h1>
+                    <a href="../en-uk/download/" class="learn-more">INSTALL EGWS</a>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-section">
+            <div class="scroll-content">
+                <div class="scroll-card" onclick="window.open('../news', '_blank')">
+                    <div class="share-icon"></div>
+                    <img src="../launcher/s5.jpg" alt="News" />
+                    <div class="card-info">
+                        <div class="card-date">APRIL 9TH, 2025</div>
+                        <div class="card-title">EGWS | MULTI SEASON</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="promo-section-wrapper">
+            <div class="promo-section">
+                <div class="promo-bg"></div>
+                <a href="../en-uk/download/" class="promo-btn">GET EGWS!</a>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-top">
+                    <div class="copyright">2025 EGWS. All rights reserved. Not affiliated with Epic Games or Fortnite.</div>
+                    <div class="footer-logos">
+                        <img src="../launcher/logo.png" alt="EGWS Logo" class="footer-logo" />
+                    </div>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-bottom">
+                    <div class="footer-text">EGWS is a private server for Fortnite Chapter 2 Season 2. This is a fan-made project and is not affiliated with, endorsed, sponsored, or specifically approved by Epic Games.</div>
+                    <div class="social-buttons">
+                        <a href="skibidi" class="social-button"><i class="fab fa-discord"></i></a>
+                        <a href="https://x.com/EGWSMP_" class="social-button"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/@EGWSMultiplayer" class="social-button"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
